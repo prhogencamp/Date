@@ -1,33 +1,59 @@
 #include "Date.h"
 #include <iostream>
+#include <iomanip>
+#include <random>
+
 using namespace std;
 
 int main() {
-    // Test for the default constructor
-    Date date1;
-    cout << "Default constructor: " << date1.printNumeric() << endl;
 
-    // Testing valid parameterized constructor
-    Date date2(2, 28, 2009);
-    cout << "Valid date: " << date2.printNumeric() << endl;
+    // Test of the default constructor
+    NumberArray defaultArray;
+    cout << "Array of size 10\n";
+    defaultArray.printArray();
 
-    // Testing invalid month
-    Date date3(45, 2, 2009);
-    cout << "Invalid month: " << date3.printNumeric() << endl;
+    // Testing constructor with parameters
+    NumberArray customArray(15);
+    cout << "\nArray of size 15\n";
+    customArray.printArray();
 
-    // Testing invalid day
-    Date date4(2, 29, 2009);
-    cout << "Invalid day: " << date4.printNumeric() << endl;
 
-    // Testing leap year
-    Date date5(2, 29, 2008);
-    cout << "Leap year: " << date5.printNumeric() << endl;
 
-    // Testing print formats
-    cout << "Print formats:" << endl;
-    cout << date5.printNumeric() << endl;
-    cout << date5.printLong() << endl;
-    cout << date5.printEuropean() << endl;
+    // Inserting random numbers into array
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_real_distribution<> dis(0.0, 100.0); 
 
-    return 0;
+    for (int i = 0; i < 15; i++) {
+        double randomValue = dis(gen);
+        customArray.setNumber(i, randomValue); 
+    }
+
+    customArray.printArray();
+
+    // Testing for out-of-bounds
+    customArray.setNumber(20, 99.9);
+
+    // Testing a valid accessor
+    cout << "Item at index 5: "
+        << fixed << setprecision(1) << customArray.getNumber(5) << "\n";
+
+    // Testing the out-of-bounds accessor
+    cout << "\nOut of bounds. returning default:\n";
+    cout << "Item at index 20 (out of bounds): "
+        << customArray.getNumber(20) << "\n";
+
+  
+    // Test of the min, max, and average functions
+    cout << "Min: "
+        << customArray.findMin() << "\n";
+
+    cout << "Max: "
+        << customArray.findMax() << "\n";
+
+    cout << "Average: "
+        << customArray.calculateAverage() << "\n";
+
+    return 0; 
 }
+

@@ -3,92 +3,92 @@
 
 #include "Date.h"
 #include <iostream>
-#include <sstream>
+
 
 using namespace std;
 
-Date::Date(int m, int d, int y) {
-    setDate(m, d, y);
+const int NumberArray::MAX_SIZE = 10;
+const double NumberArray::DEFAULT_VALUE = 0.0;
+
+
+NumberArray::NumberArray(int arraySize) {
+	size = (arraySize > 0) ? arraySize : MAX_SIZE;
+	numbers = new double[size];
+
+	for (int i = 0; i < size; i++) {
+		numbers[i] = 0.0;
+	}
+}
+NumberArray::~NumberArray() {
+	delete[] numbers;
+
 }
 
-//Validate 
-bool Date::validateDate(int m, int d, int y) {
-    if (m < 1 || m > 12 || d < 1) return false;
-    int daysInMonth = lastDay(m, y);
-    return d <= daysInMonth;
+void NumberArray::setNumber(int index, double value) {
+	if (index >= 0 && index < size) {
+		numbers[index] = value;
+	}
+	else {
+		cerr << "Out of bounds";
+	}
+}
+
+double NumberArray::getNumber(int index) const {
+	if (index >= 0 && index < size) {
+		return numbers[index];
+	}
+	else {
+		cerr << "Out of bounds" << endl;
+		return DEFAULT_VALUE;
+	}
+}
+
+double NumberArray::findMin() const {
+	if (size == 0) {
+		cerr << "There is nothing in the array" << endl;
+		return DEFAULT_VALUE;
+	}
+
+	double minValue = numbers[0];
+	for (int i = 1; i < size; i++) {
+		if (numbers[i] < minValue) {
+			minValue = numbers[i];
+		}
+	}
+	return minValue;
+}
+double NumberArray::findMax() const {
+	if (size == 0) {
+		cerr << "There is nothing in the array" << endl;
+		return DEFAULT_VALUE;
+	}
+	double maxValue = numbers[0];
+	for (int i = 1; i < size; i++) {
+		if (numbers[i] > maxValue) {
+			maxValue = numbers[i];
+		}
+	}
+	return maxValue;
+}
+
+double NumberArray::calculateAverage() const {
+	double sum = 0.0; 
+	if (size == 0) {
+		cerr << "The array is empty" << endl;
+		return DEFAULT_VALUE; 
+	}
+	for (int i = 0; i < size; i++) {
+		sum += numbers[i]; 
+	}
+	double average = sum / size; 
+	return average; 
 }
 
 
-//Set date based on date validation. If no date provided, sets the default date.
-void Date::setDate(int m, int d, int y) {
-    if (validateDate(m, d, y)) {
-        month = m;
-        day = d;
-        year = y;
-    }
-    else {
-        month = 1;
-        day = 1;
-        year = 1900;
-    }
+void NumberArray::printArray() const {
+	for (int i = 0; i < size; i++) {
+		std::cout << numbers[i] << " ";
+	}
+	std::cout << std::endl;
 }
 
-int Date::getMonth() const { return month; }
-int Date::getDay() const { return day; }
-int Date::getYear() const { return year; }
-
-
-//Check stored date for leap year.
-bool Date::isLeapYear() const {
-    return isLeapYear(year);
-}
-
-//Check for leap year in provided date.
-bool Date::isLeapYear(int y) const {
-    return (y % 4 == 0 && y % 100 != 0) || (y % 400 == 0);
-}
-
-//Check the last day of the month based on the stored month and year.
-int Date::lastDay() const {
-    return lastDay(month, year);
-}
-
-
-//Check the last day of the month based on provided month and year.
-int Date::lastDay(int m, int y) const {
-    switch (m) {
-    case 4: case 6: case 9: case 11:
-        return 30;
-    case 2:
-        return isLeapYear(y) ? 29 : 28;
-    default:
-        return 31;
-    }
-}
-
-
-//Display digits only date.
-string Date::printNumeric() const {
-    ostringstream oss;
-    oss << month << "/" << day << "/" << year;
-    return oss.str();
-}
-
-//Display the date in American format.
-string Date::printLong() const {
-    const string months[] = { "January", "February", "March", "April", "May", "June",
-                                  "July", "August", "September", "October", "November", "December" };
-    ostringstream oss;
-    oss << months[month - 1] << " " << day << ", " << year;
-    return oss.str();
-}
-
-
-//Display date in European format.
-string Date::printEuropean() const {
-    const string months[] = { "January", "February", "March", "April", "May", "June",
-                                  "July", "August", "September", "October", "November", "December" };
-    ostringstream oss;
-    oss << day << " " << months[month - 1] << " " << year;
-    return oss.str();
-}

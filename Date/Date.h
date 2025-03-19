@@ -1,33 +1,31 @@
-//This header defines the Date class and includes the prototypes.
+//This header defines the numberArray class and includes the prototypes.
 
 #include <string>
 
 using namespace std;
 
-class Date {
+class NumberArray {
 private:
-    int month;
-    int day;
-    int year;
+    double* numbers;
+    int size;
+    double sum;
+    static const int MAX_SIZE;
+    static const double DEFAULT_VALUE;
+    
 
-    bool validateDate(int, int, int);
+
 public:
-    //setting default date
-    Date(int = 1, int = 1, int = 1900);
+    NumberArray(int size = MAX_SIZE);
+    ~NumberArray();
 
-    void setDate(int, int, int);
-    int getMonth() const;
-    int getDay() const;
-    int getYear() const;
+    //Member Function prototypes
+    void setNumber(int index, double value);
+    double getNumber(int index) const;
+    double findMax() const;
+    double findMin() const;
+    double calculateAverage() const;
+    void printArray() const;
+    
 
-    bool isLeapYear() const;
-    bool isLeapYear(int) const;
-    int lastDay() const;
-    int lastDay(int, int) const;
 
-    string printNumeric() const;
-    string printLong() const;
-    string printEuropean() const;
 };
-
-
