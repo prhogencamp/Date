@@ -16,7 +16,7 @@ int main() {
     d1.setDate(3, 15, 2021);
     cout << "Testing setDate function: " << d1.printEuropean() << endl;
 
-    // 4-6. Test invalid dates
+    // 4-6. Test invalid dates 
     d1.setDate(13, 45, 2018);
     cout << "Testing invalid month and day (13/45/2018): " << d1.printNumeric() << endl;
 
